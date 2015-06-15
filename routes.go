@@ -12,18 +12,40 @@ type Route struct {
 	HandlerFunc http.HandlerFunc
 }
 
-type Routes []Route
+func newRouter(sf *Sunfish) *mux.Router {
+	var routes = []Route{
+		Route{
+			"Index",
+			"POST",
+			"/api/siafile/",
+			sf.AddFile,
+		},
+		Route{
+			"Index",
+			"GET",
+			"/api/siafile/",
+			sf.GetAll,
+		},
+		Route{
+			"Get Siafile",
+			"GET",
+			"/api/siafile/<HASH>",
+			sf.GetFile,
+		},
+		Route{
+			"Search",
+			"GET",
+			"/api/siafile/search/",
+			sf.SearchFile,
+		},
+		Route{
+			"Delete",
+			"DELETE",
+			"/api/siafile/",
+			sf.DeleteFile,
+		},
+	}
 
-var routes = Routes{
-	Route{
-		"Index",
-		"POST",
-		"/",
-		AddFile,
-	},
-}
-
-func NewRouter() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
 	for _, route := range routes {
 		var handler http.Handler
@@ -35,6 +57,9 @@ func NewRouter() *mux.Router {
 			Name(route.Name).
 			Handler(handler)
 	}
+
+	// Serve static folder at root
+	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 
 	return router
 }
