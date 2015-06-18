@@ -2,8 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
+	"github.com/gorilla/mux"
 	"gopkg.in/mgo.v2/bson"
 	"io"
+	//"os"
 	"io/ioutil"
 	"net/http"
 	"time"
@@ -17,19 +20,11 @@ func Auth(fn http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
-func writeUnmarshalError(w http.ResponseWriter) {
-	var err error
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(422) // unprocessable entity
-	if err := json.NewEncoder(w).Encode(err); err != nil {
-		panic(err)
-	}
-}
-
 func (sf *Sunfish) AddFile(w http.ResponseWriter, r *http.Request) {
 	// Handles a Post Request for a Sia file and saves it to the DB
 	var siafile Siafile
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
+	fmt.Println(string(body))
 
 	if err != nil {
 		panic(err)
@@ -38,14 +33,23 @@ func (sf *Sunfish) AddFile(w http.ResponseWriter, r *http.Request) {
 	if err := r.Body.Close(); err != nil {
 		panic(err)
 	}
+
 	if err := json.Unmarshal(body, &siafile); err != nil {
-		writeUnmarshalError(w)
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(422) // unprocessable entity
+		if err := json.NewEncoder(w).Encode(err); err != nil {
+			panic(err)
+		}
+		return
 	}
 
 	// Handle saving the Siafile to the db and file system
 	siafile.UploadedTime = time.Now()
 	err = sf.DB.C("siafiles").Insert(siafile)
 
+	if err != nil {
+		panic(err)
+	}
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusCreated)
 	if err := json.NewEncoder(w).Encode(siafile); err != nil {
@@ -72,8 +76,12 @@ func (sf *Sunfish) GetAll(w http.ResponseWriter, r *http.Request) {
 func (sf *Sunfish) GetFile(w http.ResponseWriter, r *http.Request) {
 	// Takes the hash of a Siafile in the URL and returns the Siafile in JSON
 	// TODO get hash from url
-	//var hash string
+	var hash string
 	var siafile Siafile
+
+	vars := mux.Vars(r)
+	hash = vars["hash"]
+	fmt.Println(hash)
 
 	// TODO get file from DB and encode response
 	// siafile = Db.C("siafiles").findOne({'hash':hash})
@@ -90,7 +98,10 @@ func (sf *Sunfish) SearchFile(w http.ResponseWriter, r *http.Request) {
 	// TODO get query from URL
 	// var query string
 	var siafiles []Siafile
+	// var search string
 
+	// query = r.URL.query()
+	// search = query.Get("hash")
 	// TODO Search database for query look up how to search mongo efficiently
 	// siafiles = sf.DB.C("siafiles").Select(bson.M{tags: query})
 

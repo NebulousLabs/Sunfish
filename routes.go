@@ -29,7 +29,7 @@ func newRouter(sf *Sunfish) *mux.Router {
 		Route{
 			"Get Siafile",
 			"GET",
-			"/api/siafile/<HASH>",
+			"/api/siafile/{hash}",
 			sf.GetFile,
 		},
 		Route{
