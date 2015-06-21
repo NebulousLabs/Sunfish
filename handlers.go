@@ -2,11 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/gorilla/mux"
 	"gopkg.in/mgo.v2/bson"
 	"io"
-	//"os"
 	"io/ioutil"
 	"net/http"
 	"time"
@@ -24,7 +22,6 @@ func (sf *Sunfish) AddFile(w http.ResponseWriter, r *http.Request) {
 	// Handles a Post Request for a Sia file and saves it to the DB
 	var siafile Siafile
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
-	fmt.Println(string(body))
 
 	if err != nil {
 		panic(err)
@@ -61,7 +58,8 @@ func (sf *Sunfish) GetAll(w http.ResponseWriter, r *http.Request) {
 	// Takes the hash of a Siafile in the URL and returns the Siafile in JSON
 	var siafiles []Siafile
 
-	err := sf.DB.C("siafiles").Find(bson.M{}).All(&siafiles)
+	// Select removes the content from query results
+	err := sf.DB.C("siafiles").Find(bson.M{}).Select(bson.M{"content": 0}).All(&siafiles)
 	if err != nil {
 		panic(err)
 	}
@@ -75,16 +73,18 @@ func (sf *Sunfish) GetAll(w http.ResponseWriter, r *http.Request) {
 
 func (sf *Sunfish) GetFile(w http.ResponseWriter, r *http.Request) {
 	// Takes the hash of a Siafile in the URL and returns the Siafile in JSON
-	// TODO get hash from url
-	var hash string
+	var id string
 	var siafile Siafile
 
 	vars := mux.Vars(r)
-	hash = vars["hash"]
-	fmt.Println(hash)
+	id = vars["id"]
 
-	// TODO get file from DB and encode response
-	// siafile = Db.C("siafiles").findOne({'hash':hash})
+	// Querry and find by one id
+	err := sf.DB.C("siafiles").FindId(bson.ObjectIdHex(id)).One(&siafile)
+
+	if err != nil {
+		panic(err)
+	}
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)

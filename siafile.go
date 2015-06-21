@@ -1,12 +1,16 @@
 package main
 
-import "time"
+import (
+	"gopkg.in/mgo.v2/bson"
+	"time"
+)
 
 type Siafile struct {
-	_id          string    `json:"id",bson:"_id, omitempty"`
-	SiafilePath  string    `json:"siafilepath"`
-	Hash         string    `json:"hash"`
-	Title        string    `json:"title"`
-	UploadedTime time.Time `json:"uploadedTime"`
-	Tags         []string  `json:"tags"`
+	Id           bson.ObjectId `bson:"_id,omitempty", json:"_id"`
+	Filename     string        `json:"filename"`
+	Description  string        `json:"description"`
+	Content      string        `json:"fileData"`
+	Title        string        `json:"title"`
+	UploadedTime time.Time     `json:"uploadedTime"`
+	Tags         []string      `json:"tags"`
 }
