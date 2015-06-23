@@ -8,16 +8,24 @@ Add a File
 Send JSON:
 ```
 {
-  Siafile: STRING,
-  Title: STRING,
-  Tags: [STRING]
+  title: STRING,
+  filename: STRING,
+  description: STRING,
+  content: STRING,
+  tags: [STRING],
 }
 ```
 
 Returns:
 ```
 {
-  Success: BOOL
+  _id: bson.ObjectId,
+  title: STRING,
+  filename: STRING,
+  description: STRING,
+  content: STRING,
+  tags: [STRING],
+  uploadedTime: TIME,
 }
 ```
 
@@ -25,13 +33,13 @@ Remove A File
 -------------
 /siafile/ DELETE
 Send JSON:
-Send a hash of the Sia file and credentials using basic auth. Note only Admins will have delete priviliges at first.
+Send a hash of the Sia file and credentials using basic auth. Note only Admins
+will have delete priviliges at first.
 And the hash is of the Sia file.
 
 ```
 {
-  Hash: STRING,
-  Password: STRING
+  id: STRING,
 }
 ```
 
@@ -39,7 +47,7 @@ Returns:
 
 ```
 {
-  Success: BOOL
+  success: BOOL
 }
 ```
 
@@ -50,30 +58,38 @@ Search
 
 /siafile/search/ GET
 
-Parameters has list of strings to query by
+Parameters query string to search by
 
 
 Returns:
 
 ```
+[
 {
-  Hash: STRING,
-  Title: STRING,
-  Tag: [STRING]
+  _id: bson.ObjectId,
+  title: STRING,
+  filename: STRING,
+  description: STRING,
+  tags: [STRING],
+  uploadedTime: TIME,
 }
+]
 ```
 
 Get Sia File
 ------------
-/siafile/<HASH> GET
+/siafile/<ID> GET
 
 Returns:
 
 ```
 {
-  Hash: STRING,
-  Title: STRING,
-  Tag: [STRING],
-  Siafile: STRING
+  _id: bson.ObjectId,
+  title: STRING,
+  filename: STRING,
+  description: STRING,
+  content: STRING,
+  tags: [STRING],
+  uploadedTime: TIME,
 }
 ```

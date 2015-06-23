@@ -7,10 +7,10 @@ import (
 
 type Siafile struct {
 	Id           bson.ObjectId `bson:"_id,omitempty", json:"_id"`
-	Filename     string        `json:"filename"`
-	Description  string        `json:"description"`
-	Content      string        `json:"fileData"`
 	Title        string        `json:"title"`
+	Description  string        `json:"description"`
+	Filename     string        `json:"filename"`
+	Content      string        `json:"fileData"`
 	UploadedTime time.Time     `json:"uploadedTime"`
 	Tags         []string      `json:"tags"`
 }
