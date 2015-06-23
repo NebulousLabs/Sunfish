@@ -59,7 +59,7 @@ func (sf *Sunfish) GetAll(w http.ResponseWriter, r *http.Request) {
 	var siafiles []Siafile
 
 	// Select removes the content from query results
-	err := sf.DB.C("siafiles").Find(bson.M{}).Select(bson.M{"content": 0}).All(&siafiles)
+	err := sf.DB.C("siafiles").Find(bson.M{}).All(&siafiles)
 	if err != nil {
 		panic(err)
 	}
