@@ -21,7 +21,8 @@ func Auth(fn http.HandlerFunc) http.HandlerFunc {
 func (sf *Sunfish) AddFile(w http.ResponseWriter, r *http.Request) {
 	// Handles a Post Request for a Sia file and saves it to the DB
 	var siafile Siafile
-	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
+	const maxSiaFilesize = 1 << 20 // 1 MiB
+	body, err := ioutil.ReadAll(io.LimitReader(r.Body, maxSiaFilesize))
 
 	if err != nil {
 		panic(err)
