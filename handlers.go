@@ -79,7 +79,7 @@ func (sf *Sunfish) GetFile(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id = vars["id"]
 
-	// Querry and find by one id
+	// Query and find by one id
 	err := sf.DB.C("siafiles").FindId(bson.ObjectIdHex(id)).One(&siafile)
 
 	if err != nil {

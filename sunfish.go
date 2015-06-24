@@ -14,7 +14,7 @@ type Sunfish struct {
 }
 
 // New returns a Sunfish object.
-func New() *Sunfish {
+func NewSunfish() *Sunfish {
 	sf := new(Sunfish)
 
 	// Create the Database
