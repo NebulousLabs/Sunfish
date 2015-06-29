@@ -33,6 +33,7 @@ func (sf *Sunfish) AddFile(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := json.Unmarshal(body, &siafile); err != nil {
+		// If cannot process the Siafile
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		w.WriteHeader(422) // unprocessable entity
 		if err := json.NewEncoder(w).Encode(err); err != nil {
@@ -56,10 +57,11 @@ func (sf *Sunfish) AddFile(w http.ResponseWriter, r *http.Request) {
 }
 
 func (sf *Sunfish) GetAll(w http.ResponseWriter, r *http.Request) {
-	// Takes the hash of a Siafile in the URL and returns the Siafile in JSON
+	//  Returns all siafiles in a list.
+	// TODO Pagination and sorts
 	var siafiles []Siafile
 
-	// Select removes the content from query results
+	// Select removes the content from query results use for not returning .sia
 	err := sf.DB.C("siafiles").Find(bson.M{}).All(&siafiles)
 	if err != nil {
 		panic(err)
@@ -99,12 +101,16 @@ func (sf *Sunfish) SearchFile(w http.ResponseWriter, r *http.Request) {
 	// TODO get query from URL
 	// var query string
 	var siafiles []Siafile
-	// var search string
+	var search string
 
-	// query = r.URL.query()
-	// search = query.Get("hash")
-	// TODO Search database for query look up how to search mongo efficiently
-	// siafiles = sf.DB.C("siafiles").Select(bson.M{tags: query})
+	query := r.URL.Query()
+	search = query.Get("query")
+	// Searches db or all siafiles that have the query string in it's tags
+	err := sf.DB.C("siafiles").Find(bson.M{"tags": search}).All(&siafiles)
+
+	if err != nil {
+		panic(err)
+	}
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)

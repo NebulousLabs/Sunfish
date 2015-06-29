@@ -5,6 +5,8 @@ import (
 	"gopkg.in/mgo.v2"
 )
 
+// Sunfish object is the main server object storing routes and the connection
+// to the database.
 type Sunfish struct {
 	DBSession *mgo.Session
 	DB        *mgo.Database
@@ -13,7 +15,7 @@ type Sunfish struct {
 	Routes []Route
 }
 
-// New returns a Sunfish object.
+// NewSunfish returns a Sunfish object.
 func NewSunfish() *Sunfish {
 	sf := new(Sunfish)
 
@@ -26,11 +28,28 @@ func NewSunfish() *Sunfish {
 	sf.DBSession.SetMode(mgo.Monotonic, true)
 	sf.DB = sf.DBSession.DB("sunfish")
 
+	// Index tags and title fields for faster searching
+	index := mgo.Index{
+		Key:        []string{"tags", "title"},
+		Unique:     false,
+		DropDups:   false,
+		Background: false,
+		Sparse:     true,
+	}
+
+	// Ensure index make sure that selected fields are indexed by mongo
+	err = sf.DB.C("siafiles").EnsureIndex(index)
+	if err != nil {
+		panic(err)
+	}
+
 	// Create the Router
 	sf.Router = newRouter(sf)
 	return sf
 }
 
+// Cleans up the sunfish object. Needed to close db connection and any other
+// shutdown tasks
 func (sf *Sunfish) Close() {
 	sf.DBSession.Close()
 }
