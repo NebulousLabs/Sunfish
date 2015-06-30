@@ -5,7 +5,8 @@ var readFile = function(callback){
 
     reader.onloadend = function () {
         var encodedFile = reader.result;
-        
+        var filename = file.name;
+
         callback(file.name, encodedFile);
     }
 
@@ -15,7 +16,7 @@ var readFile = function(callback){
 }
 
 var uploadSiafile = function() {
-    // $.post()
+    // Processes the form and prepares the siafile for upload via json
     var formData = new FormData();
 
     var formData = $('form').serializeArray().reduce(function(obj, item) {
@@ -26,7 +27,7 @@ var uploadSiafile = function() {
     formData.tags = formData.tags.split(",");
 
     for (var i = 0; i < formData.tags.length; i++){
-        formData.tags[i] = formData.tags[i].trim();
+        formData.tags[i] = formData.tags[i].trim().toLowerCase();
     };
 
     formData.siafile = readFile(function(name, fileData){
@@ -44,5 +45,33 @@ var uploadSiafile = function() {
             }
         });
     });
-
 }
+
+var fileDownload = function(siafile){
+    var $a = $("<a>", {
+        href: 'data:attachment/sia,' + siafile.content,
+        target: '_blank',
+        download: siafile.filename,
+        text: siafile.filename
+    });
+
+    $("#" + siafile.Id).append($a);
+};
+
+var makeTable = function(siafiles){
+    $('.siafile-table').empty();
+    for (var i = 0; i < siafiles.length; i++){
+        var siafile = siafiles[i];
+        var uploadDate = new Date(siafile.uploadedTime);
+        $('.siafile-table').append(
+                "<tr>" + 
+                "<td>" + siafile.title + "</td>" + 
+                "<td>" + siafile.description + "</td>" +
+                "<td>" + siafile.tags + "</td>" +
+                "<td>" + uploadDate.toLocaleString() + "" +
+                "<td id='" + siafile.Id + "'></td></tr>");
+        fileDownload(siafile);
+    }
+};
+
+

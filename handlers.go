@@ -18,8 +18,8 @@ func Auth(fn http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
+// AddFile handles a Post Request for a Sia file and saves it to the DB
 func (sf *Sunfish) AddFile(w http.ResponseWriter, r *http.Request) {
-	// Handles a Post Request for a Sia file and saves it to the DB
 	var siafile Siafile
 	const maxSiaFilesize = 1 << 20 // 1 MiB
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, maxSiaFilesize))
@@ -56,8 +56,8 @@ func (sf *Sunfish) AddFile(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//  GetAll returns all siafiles as a json list.
 func (sf *Sunfish) GetAll(w http.ResponseWriter, r *http.Request) {
-	//  Returns all siafiles in a list.
 	// TODO Pagination and sorts
 	var siafiles []Siafile
 
@@ -74,8 +74,8 @@ func (sf *Sunfish) GetAll(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// GetFile takes the hash of a Siafile in the URL and returns the Siafile in JSON
 func (sf *Sunfish) GetFile(w http.ResponseWriter, r *http.Request) {
-	// Takes the hash of a Siafile in the URL and returns the Siafile in JSON
 	var id string
 	var siafile Siafile
 
@@ -84,7 +84,6 @@ func (sf *Sunfish) GetFile(w http.ResponseWriter, r *http.Request) {
 
 	// Query and find by one id
 	err := sf.DB.C("siafiles").FindId(bson.ObjectIdHex(id)).One(&siafile)
-
 	if err != nil {
 		panic(err)
 	}
@@ -96,15 +95,14 @@ func (sf *Sunfish) GetFile(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// SearchFile takes a query parameter of tags and searches the DB for siafiles
+// that match that tag.
 func (sf *Sunfish) SearchFile(w http.ResponseWriter, r *http.Request) {
-	// Takes a query parameter and searches the DB
-	// TODO get query from URL
-	// var query string
 	var siafiles []Siafile
 	var search string
 
 	query := r.URL.Query()
-	search = query.Get("query")
+	search = query.Get("tags")
 	// Searches db or all siafiles that have the query string in it's tags
 	err := sf.DB.C("siafiles").Find(bson.M{"tags": search}).All(&siafiles)
 
@@ -119,17 +117,19 @@ func (sf *Sunfish) SearchFile(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// Takes the hash of a Siafile in the URL and removes it from DB
 func (sf *Sunfish) DeleteFile(w http.ResponseWriter, r *http.Request) {
-	// Takes the hash of a Siafile in the URL and removes it from DB
-	// TODO get hash from url
-	var hash string
+	var id string
+	//var siafile Siafile
 
-	// TODO get file from DB and encode response
+	vars := mux.Vars(r)
+	id = vars["id"]
+
 	// Db.C("siafiles").remove({'hash': hash})
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
-	if err := json.NewEncoder(w).Encode(hash); err != nil {
+	if err := json.NewEncoder(w).Encode(id); err != nil {
 		panic(err)
 	}
 }

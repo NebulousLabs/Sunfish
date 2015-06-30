@@ -48,7 +48,7 @@ func NewSunfish() *Sunfish {
 	return sf
 }
 
-// Cleans up the sunfish object. Needed to close db connection and any other
+// Close cleans up the sunfish object. Needed to close db connection and any other
 // shutdown tasks
 func (sf *Sunfish) Close() {
 	sf.DBSession.Close()
