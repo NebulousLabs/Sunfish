@@ -7,6 +7,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -37,6 +38,27 @@ func (sf *Sunfish) AddFile(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		w.WriteHeader(422) // unprocessable entity
 		if err := json.NewEncoder(w).Encode(err); err != nil {
+			panic(err)
+		}
+		return
+	}
+
+	// Validate fields
+	var errors []string
+	if !strings.Contains(siafile.Filename, ".sia") || len(siafile.Filename) == 0 {
+		errors = append(errors, "Bad Siafile upload")
+	}
+	if len(siafile.Title) == 0 {
+		errors = append(errors, "Title field can not be blank")
+	}
+	for i, tag := range siafile.Tags {
+		siafile.Tags[i] = strings.ToLower(tag)
+	}
+
+	if len(errors) > 0 {
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(422) // unprocessable entity
+		if err := json.NewEncoder(w).Encode(errors); err != nil {
 			panic(err)
 		}
 		return
