@@ -6,8 +6,11 @@ var readFile = function(callback){
     reader.onloadend = function () {
         var encodedFile = reader.result;
         var filename = file.name;
-
-        callback(file.name, encodedFile);
+        if(filename.indexOf(".sia") != -1){
+            callback(file.name, encodedFile);
+        } else {
+            alert("Error: Not a Siafile!")
+        }
     }
 
     if (file) {
@@ -41,7 +44,7 @@ var uploadSiafile = function() {
             dataType: 'json',
             async: false,
             success: function(msg) {
-                console.log(msg);
+                window.location.href = "/"
             }
         });
     });
