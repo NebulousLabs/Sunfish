@@ -14,7 +14,7 @@ var readFile = function(callback){
     }
 
     if (file) {
-        reader.readAsText(file);
+        reader.readAsDataURL(file);
     }
 }
 
@@ -44,7 +44,7 @@ var uploadSiafile = function() {
             dataType: 'json',
             async: false,
             success: function(msg) {
-                window.location.href = "/"
+              window.location.href = "/";
             }
         });
     });
@@ -52,7 +52,7 @@ var uploadSiafile = function() {
 
 var fileDownload = function(siafile){
     var $a = $("<a>", {
-        href: 'data:attachment/sia,' + siafile.content,
+        href: siafile.fileData,
         target: '_blank',
         download: siafile.filename,
         text: siafile.filename
@@ -71,10 +71,9 @@ var makeTable = function(siafiles){
                 "<td>" + siafile.title + "</td>" + 
                 "<td>" + siafile.description + "</td>" +
                 "<td>" + siafile.tags + "</td>" +
-                "<td>" + uploadDate.toLocaleString() + "" +
-                "<td id='" + siafile.Id + "'></td></tr>");
+                "<td>" + uploadDate.toLocaleString() + "</td>" +
+                "<td id='" + siafile.Id + "'></td></tr>"
+                );
         fileDownload(siafile);
     }
 };
-
-
