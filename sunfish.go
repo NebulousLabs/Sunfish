@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gorilla/mux"
 	"gopkg.in/mgo.v2"
+	"os"
 )
 
 // Sunfish object is the main server object storing routes and the connection
@@ -23,7 +25,8 @@ func NewSunfish() *Sunfish {
 	var err error
 	sf.DBSession, err = mgo.Dial("localhost")
 	if err != nil {
-		panic(err)
+		fmt.Println("Could not reach a Mongo server. Make you have Mongo configured correctly.")
+		os.Exit(1)
 	}
 	sf.DBSession.SetMode(mgo.Monotonic, true)
 	sf.DB = sf.DBSession.DB("sunfish")

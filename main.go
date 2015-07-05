@@ -12,5 +12,8 @@ func main() {
 
 	sf := NewSunfish()
 	defer sf.Close()
-	http.ListenAndServe(":"+*port, sf.Router)
+	err := http.ListenAndServe(":"+*port, sf.Router)
+	if err != nil {
+		panic(err)
+	}
 }
