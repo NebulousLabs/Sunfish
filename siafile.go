@@ -10,7 +10,7 @@ type Siafile struct {
 	Title        string        `json:"title"`
 	Description  string        `json:"description"`
 	Filename     string        `json:"filename"`
-	Content      string        `json:"content"`
+	FileData     string        `json:"fileData"`
 	UploadedTime time.Time     `json:"uploadedTime"`
 	Tags         []string      `json:"tags"`
 }
