@@ -2,7 +2,9 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -14,6 +16,7 @@ func main() {
 	defer sf.Close()
 	err := http.ListenAndServe(":"+*port, sf.Router)
 	if err != nil {
-		panic(err)
+		fmt.Println("Error attempting to listen and serve on port: " + *port)
+		os.Exit(1)
 	}
 }
