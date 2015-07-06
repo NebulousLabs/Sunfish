@@ -2,7 +2,9 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -12,5 +14,9 @@ func main() {
 
 	sf := NewSunfish()
 	defer sf.Close()
-	http.ListenAndServe(":"+*port, sf.Router)
+	err := http.ListenAndServe(":"+*port, sf.Router)
+	if err != nil {
+		fmt.Println("Error attempting to listen and serve on port: " + *port)
+		os.Exit(1)
+	}
 }
