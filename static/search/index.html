@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="/css/skeleton.css"/>
+<link rel="stylesheet" href="/css/main.css"/>
+</head>
+<body>
+<div class="container" ng-controller="SunfishController as sunfish">
+    <div class="row">
+        <div class="twelve columns text-center">
+            <h2><a href="/">Siafiles</a></h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="two columns">
+            <div class="row">
+                <ul class="unstyled">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/upload/">Upload Siafile</a></li>
+                    <li><a href="/search/">Search</a></li>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div class="ten columns">
+            <div class="row">
+                <div class="ten columns">
+                    <input class="u-full-width" placeholder="Search for Siafiles" id="query" type="text">
+                </div>
+                <div class="two columns">
+                    <input class="button-primary" value="Search" type="submit" onClick="searchSiafiles()">
+                </div>
+            </div>
+            <div class="row">
+                <table class="u-full-width">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Tags</th>
+                            <th>Upload Time</th>
+                            <th>Download</th>
+                        </tr>
+                    </thead>
+                    <tbody class="siafile-table">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/Javascript" src="/js/jquery-1.11.1.min.js"></script>
+<script type="text/Javascript" src="/js/main.js"></script>
+<script type="text/Javascript" src="/js/search.js"></script>
+</body>
+</html>
