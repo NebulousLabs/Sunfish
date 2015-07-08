@@ -70,7 +70,7 @@ var makeTable = function(siafiles){
                 "<tr>" + 
                 "<td>" + siafile.title + "</td>" + 
                 "<td>" + siafile.description + "</td>" +
-                "<td>" + siafile.tags + "</td>" +
+                "<td>" + siafile.tags.join(', ') + "</td>" +
                 "<td>" + uploadDate.toLocaleString() + "</td>" +
                 "<td id='" + siafile.Id + "'></td></tr>"
                 );

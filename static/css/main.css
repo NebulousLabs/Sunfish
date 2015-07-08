@@ -13,3 +13,8 @@
 a:link{
   text-decoration: none;
 }
+
+.label-tip {
+    font-weight: normal;
+    font-size: 80%;
+}
