@@ -5,12 +5,14 @@ import (
 	"time"
 )
 
+// Siafile is a struct containing all the Siafile info and metadata associated
+// with and upload
 type Siafile struct {
 	Id           bson.ObjectId `bson:"_id,omitempty", json:"_id"`
 	Title        string        `json:"title"`
 	Description  string        `json:"description"`
 	Filename     string        `json:"filename"`
-	FileData     string        `json:"fileData"`
+	Ascii        string        `json:"ascii"`
 	UploadedTime time.Time     `json:"uploadedTime"`
 	Tags         []string      `json:"tags"`
 }

@@ -1,20 +1,32 @@
+var dataUrlEncode = function(str, callback) {
+    str = str.replace(/-/g, '+').replace(/_/g, '/');
+    callback(str); 
+
+}
+
+var asciiEncode = function(str, callback) {
+    str = str.replace(/\+/g, '-').replace(/\//g, '_');
+    callback(str);
+}
+
 var readFile = function(callback){
     var preview = document.querySelector('img');
     var file    = document.querySelector('input[type=file]').files[0];
     var reader  = new FileReader();
 
     reader.onloadend = function () {
-        var encodedFile = reader.result;
         var filename = file.name;
         if(filename.indexOf(".sia") != -1){
-            callback(file.name, encodedFile);
+            asciiEncode(btoa(reader.result), function(ascii) {
+                callback(file.name, ascii);
+            });
         } else {
             alert("Error: Not a Siafile!")
         }
     }
 
     if (file) {
-        reader.readAsDataURL(file);
+        reader.readAsBinaryString(file);
     }
 }
 
@@ -33,9 +45,9 @@ var uploadSiafile = function() {
         formData.tags[i] = formData.tags[i].trim().toLowerCase();
     };
 
-    formData.siafile = readFile(function(name, fileData){
+    formData.siafile = readFile(function(name, ascii){
         formData.filename = name;
-        formData.fileData = fileData;
+        formData.ascii = ascii;
         $.ajax({
             url: '/api/siafile/',
             type: 'POST',
@@ -44,21 +56,30 @@ var uploadSiafile = function() {
             dataType: 'json',
             async: false,
             success: function(msg) {
-              window.location.href = "/";
+                window.location.href = "/";
             }
         });
     });
 }
 
 var fileDownload = function(siafile){
-    var $a = $("<a>", {
-        href: siafile.fileData,
-        target: '_blank',
-        download: siafile.filename,
-        text: siafile.filename
+    dataUrlEncode(siafile.ascii, function(dataUrl) {
+        var $a = $("<a>", {
+            href: "data:application/octet-stream;base64," + dataUrl,
+            target: '_blank',
+            download: siafile.filename,
+            text: siafile.filename
+        });
+
+        $("#" + siafile.Id).append($a);
     });
 
-    $("#" + siafile.Id).append($a);
+    var $a = $("<a>", {
+        onclick: "window.prompt('Copy Ascii','" + siafile.ascii + "')",
+        text: "Copy ASCII"
+    });
+
+    $("#ascii-" + siafile.Id).append($a);
 };
 
 var makeTable = function(siafiles){
@@ -72,7 +93,8 @@ var makeTable = function(siafiles){
                 "<td>" + siafile.description + "</td>" +
                 "<td>" + siafile.tags.join(', ') + "</td>" +
                 "<td>" + uploadDate.toLocaleString() + "</td>" +
-                "<td id='" + siafile.Id + "'></td></tr>"
+                "<td id='" + siafile.Id + "'></td>" +
+                "<td id='ascii-" + siafile.Id + "'></td></tr>"
                 );
         fileDownload(siafile);
     }
