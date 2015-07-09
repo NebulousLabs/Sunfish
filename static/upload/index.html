@@ -16,8 +16,8 @@
             <div class="row">
                 <ul class="unstyled">
                     <li><a href="/">Home</a></li>
-                    <li><a href="/upload/">Upload Siafile</a></li>
                     <li><a href="/search/">Search</a></li>
+                    <li><a href="/upload/">Upload Siafile</a></li>
                     <li></li>
                 </ul>
             </div>
@@ -29,7 +29,7 @@
                     <input type="text" id="title" name="title" class="u-full-width">
                     <label for="description">Description</label>
                     <textarea class="u-full-width" placeholder="" name="description" id="description"></textarea>
-                    <label for='tags'>Tags</label>
+                    <label for='tags'>Tags <span class="label-tip">(Comma Separated)</span></label> 
                     <input type="text" id='tags' name="tags" class="u-full-width">
                     <input type="file" id='siafile' name="siafile">
                     <input type="button" value="Submit" onclick="uploadSiafile()">
