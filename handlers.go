@@ -84,7 +84,7 @@ func (sf *Sunfish) GetAll(w http.ResponseWriter, r *http.Request) {
 	var siafiles []Siafile
 
 	// Select removes the content from query results use for not returning .sia
-	err := sf.DB.C("siafiles").Find(bson.M{}).All(&siafiles)
+	err := sf.DB.C("siafiles").Find(bson.M{}).Sort("-uploadedtime").All(&siafiles)
 	if err != nil {
 		panic(err)
 	}
