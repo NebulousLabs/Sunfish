@@ -18,7 +18,8 @@ type Sunfish struct {
 	Router *mux.Router
 	Routes []Route
 
-	logger *log.Logger
+	logger  *log.Logger
+	logFile *os.File
 }
 
 // NewSunfish returns a Sunfish object.
@@ -63,14 +64,15 @@ func NewSunfish(logDir string) *Sunfish {
 	if err != nil {
 		os.Exit(1)
 	}
+	sf.logFile = logFile
 	sf.logger = log.New(logFile, "", log.Ldate|log.Ltime|log.Lmicroseconds|log.Lshortfile)
 
+	sf.logger.Println("INFO: Succesfully created a new Sunfish Object.")
 	return sf
 }
 
 // Close cleans up the sunfish object. Needed to close db connection and any other
 // shutdown tasks
 func (sf *Sunfish) Close() {
-	sf.logger.Println("INFO: Cleaning after Sunfish object")
 	sf.DBSession.Close()
 }

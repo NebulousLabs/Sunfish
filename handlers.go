@@ -26,11 +26,11 @@ func (sf *Sunfish) AddFile(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, maxSiaFilesize))
 
 	if err != nil {
-		panic(err)
+		sf.logger.Panicln("ERROR: Could not ready body of request.")
 	}
 
 	if err := r.Body.Close(); err != nil {
-		panic(err)
+		sf.logger.Panicln("ERROR: Could not close body of request.")
 	}
 
 	if err := json.Unmarshal(body, &siafile); err != nil {
@@ -38,13 +38,15 @@ func (sf *Sunfish) AddFile(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		w.WriteHeader(422) // unprocessable entity
 		if err := json.NewEncoder(w).Encode(err); err != nil {
-			panic(err)
+			sf.logger.Panicln("ERROR: Could not encode json response.")
 		}
+		sf.logger.Println("INFO: Could not process the uploaded Siafile.")
 		return
 	}
 
 	// Validate fields
 	var errors []string
+	// Filename has to contain '.sia'
 	if !strings.Contains(siafile.Filename, ".sia") || len(siafile.Filename) == 0 {
 		errors = append(errors, "Bad Siafile upload")
 	}
@@ -59,7 +61,7 @@ func (sf *Sunfish) AddFile(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		w.WriteHeader(422) // unprocessable entity
 		if err := json.NewEncoder(w).Encode(errors); err != nil {
-			panic(err)
+			sf.logger.Panicln("ERROR: Siafile was not valid.")
 		}
 		return
 	}
@@ -69,12 +71,14 @@ func (sf *Sunfish) AddFile(w http.ResponseWriter, r *http.Request) {
 	err = sf.DB.C("siafiles").Insert(siafile)
 
 	if err != nil {
-		panic(err)
+		sf.logger.Panicln("ERROR: Could not save record into database.")
 	}
+	sf.logger.Println("INFO: Uploaded new Siafile")
+
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusCreated)
 	if err := json.NewEncoder(w).Encode(siafile); err != nil {
-		panic(err)
+		sf.logger.Panicln("ERROR: Could not encode siafile")
 	}
 }
 
@@ -86,13 +90,13 @@ func (sf *Sunfish) GetAll(w http.ResponseWriter, r *http.Request) {
 	// Select removes the content from query results use for not returning .sia
 	err := sf.DB.C("siafiles").Find(bson.M{}).All(&siafiles)
 	if err != nil {
-		panic(err)
+		sf.logger.Panicln("ERROR: Couldnot find all siafiles.")
 	}
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(siafiles); err != nil {
-		panic(err)
+		sf.logger.Println(err)
 	}
 }
 
@@ -107,13 +111,13 @@ func (sf *Sunfish) GetFile(w http.ResponseWriter, r *http.Request) {
 	// Query and find by one id
 	err := sf.DB.C("siafiles").FindId(bson.ObjectIdHex(id)).One(&siafile)
 	if err != nil {
-		panic(err)
+		sf.logger.Panicln("ERROR: Could not find Siafile: ", bson.ObjectIdHex(id))
 	}
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(siafile); err != nil {
-		panic(err)
+		sf.logger.Panicln("ERROR: Could not JSON encode Siafile:", siafile)
 	}
 }
 
@@ -129,13 +133,13 @@ func (sf *Sunfish) SearchFile(w http.ResponseWriter, r *http.Request) {
 	err := sf.DB.C("siafiles").Find(bson.M{"tags": search}).All(&siafiles)
 
 	if err != nil {
-		panic(err)
+		sf.logger.Panicln("ERROR: searching Siafiles for tags: ", search)
 	}
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(siafiles); err != nil {
-		panic(err)
+		sf.logger.Panicln("ERROR: Could not encode Siafile", siafiles)
 	}
 }
 
@@ -152,6 +156,6 @@ func (sf *Sunfish) DeleteFile(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(id); err != nil {
-		panic(err)
+		sf.logger.Println(err)
 	}
 }
