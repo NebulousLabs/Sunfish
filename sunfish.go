@@ -25,7 +25,7 @@ func NewSunfish() *Sunfish {
 	var err error
 	sf.DBSession, err = mgo.Dial("localhost")
 	if err != nil {
-		fmt.Println("Could not reach a Mongo server. Make you have Mongo configured correctly.")
+		fmt.Println("Could not reach a Mongo server. Ensure Mongo is configured correctly.")
 		os.Exit(1)
 	}
 	sf.DBSession.SetMode(mgo.Monotonic, true)
@@ -40,7 +40,7 @@ func NewSunfish() *Sunfish {
 		Sparse:     true,
 	}
 
-	// Ensure index make sure that selected fields are indexed by mongo
+	// Ensure selected fields are indexed by mongo
 	err = sf.DB.C("siafiles").EnsureIndex(index)
 	if err != nil {
 		panic(err)
@@ -51,8 +51,7 @@ func NewSunfish() *Sunfish {
 	return sf
 }
 
-// Close cleans up the sunfish object. Needed to close db connection and any other
-// shutdown tasks
+// Close cleans up the sunfish object's db connection and other shutdown tasks
 func (sf *Sunfish) Close() {
 	sf.DBSession.Close()
 }
