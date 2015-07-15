@@ -5,8 +5,7 @@ import (
 	"net/http"
 )
 
-// Route is an object that defines how a url is called and what function
-// handles the response.
+// Each Route object defines how a url is called and its handler function
 type Route struct {
 	Name        string
 	Method      string
