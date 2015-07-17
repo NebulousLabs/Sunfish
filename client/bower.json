@@ -1,0 +1,13 @@
+{
+  "name": "Sunfish",
+  "description": "Sunfish a file sharing app",
+  "version": "0.0.0",
+  "homepage": "https://github.com/NebulousLabs/Sunfish",
+  "dependencies": {
+    "angular": "~1.4.0",
+    "angular-route": "~1.4.0",
+    "foundation": "~5.5.0",
+    "jquery": "2.1.1"
+  },
+  "directory": "src/libraries"
+}
