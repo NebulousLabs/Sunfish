@@ -1,15 +1,7 @@
 'use strict';
 
-angular.module('sunfishApp')
-  .directive('siafileRow', function() {
+app.directive('siafileRow', function() {
     return {
-      restrict: 'E',
-      scope: {
-        title: '@',
-        description: '@',
-        filename: '@',
-        fileData: '@',
-        tags: '@',
-      }
+      templateUrl: 'views/tableentry/tableentry.html'
     }
   });

@@ -1,4 +1,13 @@
 'use strict';
 
-app.controller('BrowseCtrl', function($scope) {
-});
+app.controller('BrowseCtrl', ['$scope', 'SunfishSrvc', function($scope, SunfishSrvc) {
+    $scope.siafiles = [];
+
+    SunfishSrvc.getSiafiles()
+        .success(function(siafiles){
+            $scope.siafiles = siafiles;
+        }).
+        error(function(error){
+            console.log(error);
+        })
+}]);
