@@ -1,5 +1,5 @@
   <td>
-      {{ sf.title }}
+      <a ng-href="/#/siafile/{{ sf.Id }}">{{ sf.title }}</a>
   </td>
   <td>
       {{ sf.description }}
@@ -11,5 +11,5 @@
       {{ sf.uploadedTime | date:'MM/dd/yyyy @ h:mma' }}
   </td>
   <td>
-      <a ng-href="{{ sf.ascii }}" download="{{ sf.filename }}" target="_blank">{{ sf.filename }}</a>
+      <a ng-href="/#/{{ sf.ascii }}" download="{{ sf.filename }}" target="_blank">{{ sf.filename }}</a>
   </td>

@@ -8,6 +8,10 @@ app.factory('SunfishSrvc', ['$http', function($http){
         return $http.get(baseUrl);
     }
 
+    sunfishSrvc.getSiafile = function(id) {
+        return $http.get(baseUrl + id);
+    }
+
     sunfishSrvc.upload = function(siafile) {
         return $http.post(baseUrl, siafile);
     }

@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="large-8 large-offset-2">
+        <br>
+        <span class="siafile-title">{{ siafile.title }}</span>
+    </div>
+</div>
+<div class="row">
+    <div class="large-8 large-offset-2">
+        <div class="panel">
+            <p>
+            <b>Description:</b> <span class="">{{ siafile.description }}</span>
+            </p>
+            <p>
+            <b>Uploaded:</b> <span class="">{{ siafile.uploadedTime | date:'MM/dd/yyyy @ h:mma' }}</span>
+            <p>
+            <b>Tags:</b> <span class="tag" ng-repeat="tag in siafile.tags">{{ tag }} </span>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="large-8 large-offset-2">
+    </div>
+</div>

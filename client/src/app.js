@@ -19,6 +19,10 @@ var app = angular.module('sunfishApp', ['ngRoute']);
             controller: "UploadCtrl",
             templateUrl: 'views/upload/upload.html',
         })
+        .when('/siafile/:siafileId', {
+            controller: "SiafileCtrl",
+            templateUrl: 'views/siafile/siafile.html',
+        })
         .otherwise({redirectTo: '/'});
 
         // Whitelist allowed URL types

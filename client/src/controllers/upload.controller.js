@@ -8,14 +8,19 @@ app.controller('UploadCtrl', ['$scope', 'SunfishSrvc', 'SiafileReaderSrvc', func
             SiafileReaderSrvc.asciiEncode(data.base64, function(ascii){
                 $scope.siafile.ascii = ascii;
                 $scope.siafile.filename = data.filename;
+                $scope.siafile.tags = $scope.siafile.tags.split(",");
+
+                for (var i = 0; i <$scope.siafile.tags.length; i++){
+                    $scope.siafile.tags[i] = $scope.siafile.tags[i].trim().toLowerCase();
+                };
 
                 SunfishSrvc.upload($scope.siafile)
-                    .success(function(siafile) {
-                        console.log(siafile);
-                    })
-                    .error(function(error) {
-                        console.log(error);
-                    });
+                .success(function(siafile) {
+                    console.log(siafile);
+                })
+                .error(function(error) {
+                    console.log(error);
+                });
             });
         });
     };

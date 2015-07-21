@@ -23,3 +23,21 @@ a:link{
     font-weight: normal;
     font-size: 80%;
 }
+
+.siafile-title {
+    text-align: center;
+    font-size: 1.25em;
+    font-weight: bold;
+}
+
+.tag {
+    padding: 2px;
+    margin: 2px;
+
+    -moz-border-radius: 30%; /* or 50% */
+    border-radius: 30%; /* or 50% */
+
+    background-color: #999;
+    color: white;
+    text-align: center;
+}
