@@ -8,6 +8,11 @@ app.factory('SiafileReaderSrvc', ['$q', function($q){
         callback(ascii);
     }
 
+    readerSrvc.urlEncode = function(ascii, callback){
+        var dataUrl = ascii.replace(/-/g, '+').replace(/_/g, '/');
+        callback(dataUrl);
+    }
+
     readerSrvc.readfile = function(){
         var deferred = $q.defer();
 

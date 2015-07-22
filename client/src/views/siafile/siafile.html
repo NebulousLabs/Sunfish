@@ -1,24 +1,26 @@
 <div class="row">
-    <div class="large-8 large-offset-2">
+    <div class="large-6 medium-8 large-offset-2 medium-offset-1 columns">
         <br>
         <span class="siafile-title">{{ siafile.title }}</span>
-    </div>
-</div>
-<div class="row">
-    <div class="large-8 large-offset-2">
         <div class="panel">
+            <p><b>Description:</b> <span class="">{{ siafile.description }}</span></p>
             <p>
-            <b>Description:</b> <span class="">{{ siafile.description }}</span>
+            <b>Uploaded:</b> 
+            <span class="">{{ siafile.uploadedTime | date:'MM/dd/yyyy @ h:mma' }}</span>
             </p>
-            <p>
-            <b>Uploaded:</b> <span class="">{{ siafile.uploadedTime | date:'MM/dd/yyyy @ h:mma' }}</span>
             <p>
             <b>Tags:</b> <span class="tag" ng-repeat="tag in siafile.tags">{{ tag }} </span>
             </p>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="large-8 large-offset-2">
+    <div class="large-3 medium-1 columns end">
+        <br>
+        <p>
+        <b>Download:</b>
+        </p>
+
+        <a download="{{ siafile.filename }}" target="_blank" ng-href="{{ downloadUrl }}" class="button small">Download .sia</a>
+        <button class="button small" ng-click="copyASCII()">Show ASCII</button>
+        <input type="text" name="asciiText" id="asciiText" value="{{ siafile.ascii }}">
     </div>
 </div>

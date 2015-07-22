@@ -34,10 +34,14 @@ a:link{
     padding: 2px;
     margin: 2px;
 
-    -moz-border-radius: 30%; /* or 50% */
-    border-radius: 30%; /* or 50% */
+    -moz-border-radius: 3px; /* or 50% */
+    border-radius: 3px; /* or 50% */
 
     background-color: #999;
     color: white;
     text-align: center;
+}
+
+#asciiText {
+    display: none;
 }
