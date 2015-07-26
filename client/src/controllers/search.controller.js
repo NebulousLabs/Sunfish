@@ -1,7 +1,10 @@
 'use strict';
 
 app.controller('SearchCtrl', ['$scope', 'SunfishSrvc', function($scope, SunfishSrvc){
-    SunfishSrvc.getSiafiles()
-        .success(function(siafiles) {
-        });
+    $scope.search = function() {
+        SunfishSrvc.searchSiafiles($scope.query)
+          .success(function(siafiles){
+              $scope.siafiles = siafiles;
+          });
+    }
 }]);

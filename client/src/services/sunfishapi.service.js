@@ -16,5 +16,9 @@ app.factory('SunfishSrvc', ['$http', function($http){
         return $http.post(baseUrl, siafile);
     }
 
+    sunfishSrvc.searchSiafiles = function(searchString) {
+        return $http.get(baseUrl + 'search', {params: {'tags': searchString}})
+    }
+
     return sunfishSrvc;
 }]);

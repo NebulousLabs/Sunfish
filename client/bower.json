@@ -9,5 +9,4 @@
     "foundation": "~5.5.0",
     "jquery": "2.1.1"
   },
-  "directory": "src/libraries"
 }
