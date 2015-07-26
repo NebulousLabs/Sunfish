@@ -22,6 +22,22 @@ type Sunfish struct {
 	logFile *os.File
 }
 
+func NewLogger(sf *Sunfish, logDir string) {
+	// Make the log directory
+	err := os.MkdirAll(logDir, 0700)
+	if err != nil {
+		os.Exit(1)
+	}
+
+	logFile, err := os.OpenFile(filepath.Join(logDir, "sunfish.log"), os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0660)
+	if err != nil {
+		os.Exit(1)
+	}
+	sf.logFile = logFile
+	sf.logger = log.New(logFile, "", log.Ldate|log.Ltime|log.Lmicroseconds|log.Lshortfile)
+	return
+}
+
 // NewSunfish returns a Sunfish object.
 func NewSunfish(logDir string) *Sunfish {
 	sf := new(Sunfish)
@@ -54,18 +70,7 @@ func NewSunfish(logDir string) *Sunfish {
 	// Create the Router
 	sf.Router = newRouter(sf)
 
-	// Make the log directory
-	err = os.MkdirAll(logDir, 0700)
-	if err != nil {
-		os.Exit(1)
-	}
-
-	logFile, err := os.OpenFile(filepath.Join(logDir, "sunfish.log"), os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0660)
-	if err != nil {
-		os.Exit(1)
-	}
-	sf.logFile = logFile
-	sf.logger = log.New(logFile, "", log.Ldate|log.Ltime|log.Lmicroseconds|log.Lshortfile)
+	NewLogger(sf, logDir)
 
 	sf.logger.Println("INFO: Succesfully created a new Sunfish Object.")
 	return sf

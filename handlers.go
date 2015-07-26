@@ -73,12 +73,10 @@ func (sf *Sunfish) AddFile(w http.ResponseWriter, r *http.Request) {
 	// Handle saving the Siafile to the db and file system
 	siafile.UploadedTime = time.Now()
 	err = sf.DB.C("siafiles").Insert(siafile)
-
 	if err != nil {
 		sf.logger.Println("ERROR: Could not save record into database.")
 		return
 	}
-	sf.logger.Println("INFO: Uploaded new Siafile")
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusCreated)
