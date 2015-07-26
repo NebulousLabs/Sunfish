@@ -26,7 +26,7 @@ func (sf *Sunfish) AddFile(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, maxSiaFilesize))
 
 	if err != nil {
-		sf.logger.Println("ERROR: Could not ready body of request.")
+		sf.logger.Println("ERROR: Could not read body of request.")
 		return
 	}
 
@@ -94,7 +94,7 @@ func (sf *Sunfish) GetAll(w http.ResponseWriter, r *http.Request) {
 	// Select removes the content from query results use for not returning .sia
 	err := sf.DB.C("siafiles").Find(bson.M{}).All(&siafiles)
 	if err != nil {
-		sf.logger.Println("ERROR: Couldnot find all siafiles.")
+		sf.logger.Println("ERROR: Could not find all siafiles.")
 		return
 	}
 
@@ -166,5 +166,6 @@ func (sf *Sunfish) DeleteFile(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(id); err != nil {
 		sf.logger.Println(err)
+		return
 	}
 }
