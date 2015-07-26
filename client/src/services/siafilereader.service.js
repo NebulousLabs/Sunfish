@@ -21,8 +21,6 @@ app.factory('SiafileReaderSrvc', ['$q', function($q){
 
         reader.onloadend = function () {
             var filename = file.name;
-            console.log(filename);
-            console.log(reader.result);
             if(filename.indexOf(".sia") != -1){
                 deferred.resolve({'base64': btoa(reader.result), 'filename': filename});
             } else {

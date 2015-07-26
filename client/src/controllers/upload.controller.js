@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('UploadCtrl', ['$scope', 'SunfishSrvc', 'SiafileReaderSrvc', function($scope, SunfishSrvc, SiafileReaderSrvc) {
+app.controller('UploadCtrl', ['$scope', '$location', 'SunfishSrvc', 'SiafileReaderSrvc', function($scope, $location, SunfishSrvc, SiafileReaderSrvc) {
     $scope.siafile = {};
 
     $scope.uploadSiafile = function() {
@@ -15,12 +15,9 @@ app.controller('UploadCtrl', ['$scope', 'SunfishSrvc', 'SiafileReaderSrvc', func
                 };
 
                 SunfishSrvc.upload($scope.siafile)
-                .success(function(siafile) {
-                    console.log(siafile);
-                })
-                .error(function(error) {
-                    console.log(error);
-                });
+                    .success(function(siafile) {
+                        $location.path("/siafile/" + siafile.Id);
+                    });
             });
         });
     };

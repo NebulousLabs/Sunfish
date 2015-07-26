@@ -14,4 +14,8 @@ app.controller('NavbarCtrl', function($scope, $location) {
         'title': 'Upload',
         'link': '/#/upload/'
     }];
+
+    $scope.toggleTopbar = function(){
+      Foundation.libs.topbar.toggle($('.top-bar'));
+    };
 })

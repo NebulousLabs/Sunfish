@@ -6,8 +6,5 @@ app.controller('BrowseCtrl', ['$scope', 'SunfishSrvc', function($scope, SunfishS
     SunfishSrvc.getSiafiles()
         .success(function(siafiles){
             $scope.siafiles = siafiles;
-        }).
-        error(function(error){
-            console.log(error);
-        })
+        });
 }]);

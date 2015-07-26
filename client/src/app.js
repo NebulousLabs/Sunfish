@@ -29,3 +29,10 @@ var app = angular.module('sunfishApp', ['ngRoute']);
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|data):/);
     },
     ]);
+
+// Initialize foundation once the page has loaded.
+app.run(function($timeout){
+  $timeout(function() {
+    $(document).foundation();
+  }, 500);
+});
