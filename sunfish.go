@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"gopkg.in/mgo.v2"
+	"log"
 	"os"
+	"path/filepath"
 )
 
 // Sunfish object is the main server object storing routes and the connection
@@ -15,10 +17,29 @@ type Sunfish struct {
 
 	Router *mux.Router
 	Routes []Route
+
+	logger  *log.Logger
+	logFile *os.File
+}
+
+func NewLogger(sf *Sunfish, logDir string) {
+	// Make the log directory
+	err := os.MkdirAll(logDir, 0700)
+	if err != nil {
+		os.Exit(1)
+	}
+
+	logFile, err := os.OpenFile(filepath.Join(logDir, "sunfish.log"), os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0660)
+	if err != nil {
+		os.Exit(1)
+	}
+	sf.logFile = logFile
+	sf.logger = log.New(logFile, "", log.Ldate|log.Ltime|log.Lmicroseconds|log.Lshortfile)
+	return
 }
 
 // NewSunfish returns a Sunfish object.
-func NewSunfish() *Sunfish {
+func NewSunfish(logDir string) *Sunfish {
 	sf := new(Sunfish)
 
 	// Create the Database
@@ -48,6 +69,10 @@ func NewSunfish() *Sunfish {
 
 	// Create the Router
 	sf.Router = newRouter(sf)
+
+	NewLogger(sf, logDir)
+
+	sf.logger.Println("INFO: Succesfully created a new Sunfish Object.")
 	return sf
 }
 
