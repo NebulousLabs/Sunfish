@@ -33,6 +33,7 @@ a:link{
 .tag {
     padding: 2px;
     margin: 2px;
+    line-height: 1.8;
 
     -moz-border-radius: 3px; /* or 50% */
     border-radius: 3px; /* or 50% */

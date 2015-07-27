@@ -1,11 +1,11 @@
   <td>
-      <a ng-href="/#/siafile/{{ sf.Id }}">{{ sf.title }}</a>
+    <a ng-href="/#/siafile/{{ sf.Id }}">{{ sf.title | limitTo: 20 }}{{ sf.title.length > 20 ? '...' : '' }}</a>
   </td>
   <td>
-      {{ sf.description }}
+      {{ sf.description | limitTo: 20 }}{{ sf.description.length > 20 ? '...' : '' }}
   </td>
   <td>
-      <span ng-repeat="tag in sf.tags">{{ tag }} </span>
+      <span ng-repeat="tag in sf.tags"><span class="tag">{{ tag }}</span> </span>
   </td>
   <td>
       {{ sf.uploadedTime | date:'MM/dd/yyyy @ h:mma' }}
