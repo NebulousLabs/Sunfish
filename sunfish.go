@@ -39,7 +39,7 @@ func NewLogger(sf *Sunfish, logDir string) {
 }
 
 // NewSunfish returns a Sunfish object.
-func NewSunfish(logDir string) *Sunfish {
+func NewSunfish(logDir string, dbName string) *Sunfish {
 	sf := new(Sunfish)
 
 	// Create the Database
@@ -50,7 +50,7 @@ func NewSunfish(logDir string) *Sunfish {
 		os.Exit(1)
 	}
 	sf.DBSession.SetMode(mgo.Monotonic, true)
-	sf.DB = sf.DBSession.DB("sunfish")
+	sf.DB = sf.DBSession.DB(dbName)
 
 	// Index tags and title fields for faster searching
 	index := mgo.Index{
