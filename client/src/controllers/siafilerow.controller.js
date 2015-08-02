@@ -11,7 +11,6 @@ app.controller('siafileRowCtrl', function($scope){
           } else {
               return count;
           }
-          
       }
       return count;
   }

@@ -5,7 +5,10 @@
       {{ sf.description | limitTo: 20 }}{{ sf.description.length > 20 ? '...' : '' }}
   </td>
   <td>
-      <span ng-repeat="tag in sf.tags | limitTo: tagsCount(sf.tags, 25)"><span class="tag">{{ tag }}</span> </span>
+    <span ng-repeat="tag in sf.tags | limitTo: tagsCount(sf.tags, 25)">
+        <span class="tag">{{ tag }}</span> 
+    </span>
+    <span class="tag extra-tag" ng-if="sf.tags.length > tagsCount(sf.tags, 25)"><a ng-href="/#/siafile/{{ sf.Id }}">... </a></span>
   </td>
   <td>
       {{ sf.uploadedTime | date:'MM/dd/yyyy @ h:mma' }}

@@ -43,6 +43,14 @@ a:link{
     text-align: center;
 }
 
+.extra-tag {
+    background-color: #BBBBBB;
+}
+
+.extra-tag a {
+    color: white;
+}
+
 #asciiText {
     display: none;
 }
