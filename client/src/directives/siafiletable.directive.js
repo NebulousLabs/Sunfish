@@ -1,9 +1,7 @@
 'use strict';
 
 app.directive('siafileTable', function() {
-    return {
-        templateUrl: 'views/siafiletable/siafiletable.html',
-        link: function(scope, element, attrs) {
+    var linkFunc = function(scope, element, attrs) {
             scope.sortOrder = '';
 
             scope.sortBy = function(columnName) {
@@ -13,7 +11,9 @@ app.directive('siafileTable', function() {
                     scope.sortOrder = columnName;
                 }
             };
-        },
+        };
+    return {
+        templateUrl: 'views/siafiletable.html',
+        link: linkFunc
     }
 });
-

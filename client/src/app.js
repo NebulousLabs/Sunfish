@@ -5,23 +5,23 @@ var app = angular.module('sunfishApp', ['ngRoute']);
     app.config(['$routeProvider', '$compileProvider', function($routeProvider, $compileProvider) {
         $routeProvider
         .when('/', {
-            templateUrl: 'views/main/main.html',
+            templateUrl: 'views/main.html',
         })
         .when('/browse/', {
             controller: "BrowseCtrl",
-            templateUrl: 'views/browse/browse.html',
+            templateUrl: 'views/browse.html',
         })
         .when('/search/', {
             controller: "SearchCtrl",
-            templateUrl: 'views/search/search.html',
+            templateUrl: 'views/search.html',
         })
         .when('/upload/', {
             controller: "UploadCtrl",
-            templateUrl: 'views/upload/upload.html',
+            templateUrl: 'views/upload.html',
         })
         .when('/siafile/:siafileId', {
             controller: "SiafileCtrl",
-            templateUrl: 'views/siafile/siafile.html',
+            templateUrl: 'views/siafile.html',
         })
         .otherwise({redirectTo: '/'});
 
