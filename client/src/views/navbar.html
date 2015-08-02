@@ -8,8 +8,8 @@
     </ul>
     <section class="top-bar-section">
         <ul class="right">
-            <li ng-repeat="page in menu" ng-class="{active: isActive(page.link)}">
-                <a ng-href="{{page.link}}" ng-click="toggleTopbar()">{{page.title}}</a>
+            <li ng-repeat="page in menu" ng-class="{active: isActive(page.link) }">
+                <a class="active" ng-href="/#{{page.link}}" ng-click="toggleTopbar()">{{page.title}}</a>
             </li>
         </ul>
     </section>
