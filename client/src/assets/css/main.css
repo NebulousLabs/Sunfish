@@ -30,6 +30,10 @@ a:link{
     font-weight: bold;
 }
 
+.siafile-listed {
+    font-size: .9em;
+}
+
 .tag {
     padding: 2px;
     margin: 2px;

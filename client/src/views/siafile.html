@@ -2,6 +2,7 @@
     <div class="large-6 medium-8 large-offset-2 medium-offset-1 columns">
         <br>
         <span class="siafile-title">{{ siafile.title }}</span>
+        <span class="siafile-listed label round" ng-if="!siafile.listed">Unlisted</span>
         <div class="panel">
             <p><b>Description:</b> <span class="">{{ siafile.description }}</span></p>
             <p>

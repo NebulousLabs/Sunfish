@@ -2,6 +2,7 @@
 
 app.controller('UploadCtrl', ['$scope', '$location', 'SunfishSrvc', 'SiafileReaderSrvc', function($scope, $location, SunfishSrvc, SiafileReaderSrvc) {
     $scope.siafile = {};
+    $scope.siafile.listed = true;
 
     $scope.uploadSiafile = function() {
         SiafileReaderSrvc.readfile().then(function(data) {

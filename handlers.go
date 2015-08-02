@@ -93,7 +93,7 @@ func (sf *Sunfish) GetAll(w http.ResponseWriter, r *http.Request) {
 	var siafiles []Siafile
 
 	// Select removes the content from query results use for not returning .sia
-	err := sf.DB.C("siafiles").Find(bson.M{}).Sort("-uploadedtime").All(&siafiles)
+	err := sf.DB.C("siafiles").Find(bson.M{"listed": true}).Sort("-uploadedtime").All(&siafiles)
 	if err != nil {
 		sf.logger.Println("ERROR: Could not find all siafiles.")
 		return
@@ -138,7 +138,7 @@ func (sf *Sunfish) SearchFile(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	search = query.Get("tags")
 	// Searches db or all siafiles that have the query string in it's tags
-	err := sf.DB.C("siafiles").Find(bson.M{"tags": search}).All(&siafiles)
+	err := sf.DB.C("siafiles").Find(bson.M{"tags": search, "listed": true}).All(&siafiles)
 
 	if err != nil {
 		sf.logger.Println("ERROR: searching Siafiles for tags: ", search)

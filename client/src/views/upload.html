@@ -5,16 +5,54 @@
     </div>
 </div>
 <div class="row">
-    <div class="small-12 medium-10 medium-offset-1 large-8 large-offset-2">
+    <div class="small-10 small-offset-1 medium-10 medium-offset-1 large-8 large-offset-2">
         <form>
-            <label for='title'>Title</label>
-            <input type="text" id="title" name="title" class="u-full-width" ng-model="siafile.title">
-            <label for="description">Description</label>
-            <textarea class="u-full-width" placeholder="" name="description" id="description" ng-model="siafile.description"></textarea>
-            <label for='tags'>Tags <span class="label-tip">(Comma Separated)</span></label> 
-            <input type="text" id='tags' name="tags" class="u-full-width" ng-model="tags">
-            <input type="file" id='siafile' name="siafile">
-            <input type="button" class="button" value="Submit" ng-click="uploadSiafile()">
+            <div class="row">
+                <div class="small-12 columns">
+                    <label for='title'>Title</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-12 columns">
+                    <input type="text" id="title" name="title" class="u-full-width" ng-model="siafile.title">
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-12 columns">
+                    <label for="description">Description</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-12 columns">
+                    <textarea class="u-full-width" placeholder="" name="description" id="description" ng-model="siafile.description"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-12 columns">
+                    <label for='tags'>Tags <span class="label-tip">(Comma Separated)</span></label> 
+                    <input type="text" id='tags' name="tags" class="u-full-width" ng-model="tags">
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-6 columns">
+                    <input type="file" id='siafile' name="siafile">
+                </div>
+                <div class="small-2 medium-1 columns">
+                    <div class="switch small">
+                        <input id="unlisted" type="checkbox" ng-model="siafile.listed">
+                        <label for="unlisted"></label>
+                    </div> 
+                </div>
+                <div class="small-4 medium-5 columns">
+                    <label ng-if="siafile.listed">Publicly listed</label>
+                    <label ng-if="!siafile.listed">Unlisted</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-12 columns">
+                    <input type="button" class="button" value="Submit" ng-click="uploadSiafile()">
+                </div>
+            </div>
         </form>
     </div>
 </div>
