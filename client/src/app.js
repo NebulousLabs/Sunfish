@@ -27,8 +27,7 @@ var app = angular.module('sunfishApp', ['ngRoute']);
 
         // Whitelist allowed URL types
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|data):/);
-    },
-    ]);
+    }]);
 
 // Initialize foundation once the page has loaded.
 app.run(function($timeout){
