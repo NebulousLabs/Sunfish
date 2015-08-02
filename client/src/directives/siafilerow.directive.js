@@ -2,6 +2,7 @@
 
 app.directive('siafileRow', function() {
     return {
-        templateUrl: 'views/siafilerow.html'
+        templateUrl: 'views/siafilerow.html',
+        controller: 'siafileRowCtrl'
     }
 });
