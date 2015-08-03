@@ -3,6 +3,7 @@
         <br>
         <span class="siafile-title">{{ siafile.title }}</span>
         <span class="siafile-listed label round" ng-if="!siafile.listed">Unlisted</span>
+        <span class="siafile-listed label round" ng-if="!siafile.safe">NSFW</span>
         <div class="panel">
             <p><b>Description:</b> <span class="">{{ siafile.description }}</span></p>
             <p>
@@ -14,7 +15,7 @@
             </p>
         </div>
     </div>
-    <div class="large-3 medium-1 columns end">
+    <div class="large-3 medium-2 columns end">
         <br>
         <p>
         <b>Download:</b>

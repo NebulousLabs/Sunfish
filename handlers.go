@@ -91,9 +91,28 @@ func (sf *Sunfish) AddFile(w http.ResponseWriter, r *http.Request) {
 func (sf *Sunfish) GetAll(w http.ResponseWriter, r *http.Request) {
 	// TODO Pagination and sorts
 	var siafiles []Siafile
+	var safeString string
 
+	query := r.URL.Query()
+	safeString = query.Get("safe")
+
+	var safe bool
+	if safeString == "true" {
+		safe = true
+	} else {
+		safe = false
+	}
+
+	var err error
 	// Select removes the content from query results use for not returning .sia
-	err := sf.DB.C("siafiles").Find(bson.M{"listed": true}).Sort("-uploadedtime").All(&siafiles)
+	if safe {
+		err = sf.DB.C("siafiles").Find(
+			bson.M{"safe": safe, "listed": true}).Sort("-uploadedtime").All(&siafiles)
+	} else {
+		err = sf.DB.C("siafiles").Find(
+			bson.M{"listed": true}).Sort("-uploadedtime").All(&siafiles)
+	}
+
 	if err != nil {
 		sf.logger.Println("ERROR: Could not find all siafiles.")
 		return
@@ -134,11 +153,28 @@ func (sf *Sunfish) GetFile(w http.ResponseWriter, r *http.Request) {
 func (sf *Sunfish) SearchFile(w http.ResponseWriter, r *http.Request) {
 	var siafiles []Siafile
 	var search string
+	var safeString string
 
 	query := r.URL.Query()
 	search = query.Get("tags")
+	safeString = query.Get("safe")
+
+	var safe bool
+	if safeString == "true" {
+		safe = true
+	} else {
+		safe = false
+	}
+
 	// Searches db or all siafiles that have the query string in it's tags
-	err := sf.DB.C("siafiles").Find(bson.M{"tags": search, "listed": true}).All(&siafiles)
+	var err error
+	if safe {
+		err = sf.DB.C("siafiles").Find(
+			bson.M{"tags": search, "safe": safe, "listed": true}).All(&siafiles)
+	} else {
+		err = sf.DB.C("siafiles").Find(
+			bson.M{"tags": search, "listed": true}).All(&siafiles)
+	}
 
 	if err != nil {
 		sf.logger.Println("ERROR: searching Siafiles for tags: ", search)

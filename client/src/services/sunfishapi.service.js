@@ -4,8 +4,8 @@ app.factory('SunfishSrvc', ['$http', function($http){
     var baseUrl = '/api/siafile/';
     var sunfishSrvc = {};
 
-    sunfishSrvc.getSiafiles = function() {
-        return $http.get(baseUrl);
+    sunfishSrvc.getSiafiles = function(safeSearch) {
+        return $http.get(baseUrl, {params: {'safe': safeSearch}});
     }
 
     sunfishSrvc.getSiafile = function(id) {
@@ -16,8 +16,13 @@ app.factory('SunfishSrvc', ['$http', function($http){
         return $http.post(baseUrl, siafile);
     }
 
-    sunfishSrvc.searchSiafiles = function(searchString) {
-        return $http.get(baseUrl + 'search', {params: {'tags': searchString}})
+    sunfishSrvc.searchSiafiles = function(searchString, safeSearch) {
+        return $http.get(baseUrl + 'search', {
+            params: {
+                'tags': searchString,
+                'safe': safeSearch
+            }
+        })
     }
 
     return sunfishSrvc;

@@ -28,24 +28,30 @@
                 </div>
             </div>
             <div class="row">
-                <div class="small-12 columns">
+                <div class="small-8 columns">
                     <label for='tags'>Tags <span class="label-tip">(Comma Separated)</span></label> 
                     <input type="text" id='tags' name="tags" class="u-full-width" ng-model="tags">
                 </div>
-            </div>
-            <div class="row">
-                <div class="small-6 columns">
-                    <input type="file" id='siafile' name="siafile">
-                </div>
-                <div class="small-2 medium-1 columns">
+                <div class="small-2 columns">
+                    <label ng-if="siafile.listed">Public</label>
+                    <label ng-if="!siafile.listed">Unlisted</label>
                     <div class="switch small">
                         <input id="unlisted" type="checkbox" ng-model="siafile.listed">
                         <label for="unlisted"></label>
                     </div> 
                 </div>
-                <div class="small-4 medium-5 columns">
-                    <label ng-if="siafile.listed">Publicly listed</label>
-                    <label ng-if="!siafile.listed">Unlisted</label>
+                <div class="small-2 columns">
+                    <label ng-if="siafile.safe" for='tags'>Safe</label>
+                    <label ng-if="!siafile.safe" for='tags'>NSFW</label>
+                    <div class="switch small">
+                        <input id="nsfw" type="checkbox" ng-model="siafile.safe">
+                        <label for="nsfw"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-12 columns">
+                    <input type="file" id='siafile' name="siafile">
                 </div>
             </div>
             <div class="row">

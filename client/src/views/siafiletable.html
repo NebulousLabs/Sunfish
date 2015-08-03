@@ -6,9 +6,9 @@
         <td width="200"><a ng-click="sortBy('uploadedTime')">Upload Date</a></td>
     </thead>
     <tbody>
-        <tr data-siafile-row ng-repeat="sf in siafiles | orderBy:sortOrder" ></tr>
-        <tr ng-hide="siafiles.length">
-            <td class="text-center" colspan="4">No Siafiles found.</td>
-        </tr>
+    <tr data-siafile-row ng-repeat="sf in siafiles | orderBy:sortOrder" ></tr>
+    <tr ng-hide="siafiles.length">
+        <td class="text-center" colspan="4">No Siafiles found.</td>
+    </tr>
     </tbody>
 </table>
