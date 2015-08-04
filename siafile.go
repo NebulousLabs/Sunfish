@@ -15,4 +15,6 @@ type Siafile struct {
 	Ascii        string        `json:"ascii"`
 	UploadedTime time.Time     `json:"uploadedTime"`
 	Tags         []string      `json:"tags"`
+	Listed       bool          `json:"listed"`
+	Safe         bool          `json:"safe"`
 }

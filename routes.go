@@ -65,7 +65,7 @@ func newRouter(sf *Sunfish) *mux.Router {
 	}
 
 	// Serve static folder at root
-	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
+	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./client/src/")))
 
 	return router
 }

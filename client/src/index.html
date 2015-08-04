@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Sunfish</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="libraries/foundation/css/foundation.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body ng-app="sunfishApp">
+  <div class="contain-to-grid">
+    <div ng-include="'views/navbar.html'"></div>
+  </div>
+
+  <div ng-view></div>
+
+  <script src="libraries/jquery/dist/jquery.min.js"></script>
+  <script src="libraries/angular/angular.js"></script>
+  <script src="libraries/angular-route/angular-route.js"></script>
+  <script src="libraries/foundation/js/foundation.min.js"></script>
+
+  <script src="app.js"></script>
+
+  <script src="services/sunfishapi.service.js"></script>
+  <script src="services/siafilereader.service.js"></script>
+
+  <script src="directives/siafilerow.directive.js"></script>
+  <script src="directives/siafiletable.directive.js"></script>
+  <script src="directives/filter.directive.js"></script>
+
+  <script src="controllers/browse.controller.js"></script>
+  <script src="controllers/filter.controller.js"></script>
+  <script src="controllers/navbar.controller.js"></script>
+  <script src="controllers/search.controller.js"></script>
+  <script src="controllers/siafile.controller.js"></script>
+  <script src="controllers/siafilerow.controller.js"></script>
+  <script src="controllers/upload.controller.js"></script>
+</body>
+</html>
