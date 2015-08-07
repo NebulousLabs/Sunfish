@@ -4,6 +4,17 @@ app.controller('UploadCtrl', ['$scope', '$location', 'SunfishSrvc', 'SiafileRead
     $scope.siafile = {};
     $scope.siafile.listed = true;
     $scope.siafile.safe = true;
+    $scope.safeClicked = false;
+
+    $scope.checkNSFW = function() {
+        var nsfwLoc = $scope.tags.toLowerCase().indexOf('nsfw');
+        if (nsfwLoc != -1) {
+            $scope.siafile.safe = false;
+        } else if ( nsfwLoc == -1 && !$scope.safeClicked ){
+            // Ignore nsfw tag remove if toggle was clicked
+            $scope.siafile.safe = true;
+        }
+    }
 
     $scope.uploadSiafile = function() {
         SiafileReaderSrvc.readfile().then(function(data) {
