@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="small-8 columns">
                     <label for='tags'>Tags <span class="label-tip">(Comma Separated)</span></label> 
-                    <input type="text" id='tags' name="tags" class="u-full-width" ng-model="tags">
+                    <input type="text" id='tags' name="tags" class="u-full-width" ng-model="tags" ng-change="checkNSFW()">
                 </div>
                 <div class="small-2 columns">
                     <label ng-if="siafile.listed">Public</label>
@@ -44,7 +44,7 @@
                     <label ng-if="siafile.safe" for='tags'>Safe</label>
                     <label ng-if="!siafile.safe" for='tags'>NSFW</label>
                     <div class="switch small">
-                        <input id="nsfw" type="checkbox" ng-model="siafile.safe">
+                        <input id="nsfw" type="checkbox" ng-model="siafile.safe" ng-change="safeClicked = true">
                         <label for="nsfw"></label>
                     </div>
                 </div>
