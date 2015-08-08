@@ -1,0 +1,60 @@
+.text-center{
+    text-align: center;
+}
+
+.text-right{
+    text-align: right;
+}
+
+.unstyled {
+    list-style: none;
+}
+
+a:link{
+    text-decoration: none;
+}
+
+.label-tip {
+    font-weight: normal;
+    font-size: 80%;
+}
+
+.label-tip {
+    font-weight: normal;
+    font-size: 80%;
+}
+
+.siafile-title {
+    text-align: center;
+    font-size: 1.25em;
+    font-weight: bold;
+}
+
+.siafile-listed {
+    font-size: .9em;
+}
+
+.tag {
+    padding: 2px;
+    margin: 2px;
+    line-height: 1.8;
+
+    -moz-border-radius: 3px; /* or 50% */
+    border-radius: 3px; /* or 50% */
+
+    background-color: #999;
+    color: white;
+    text-align: center;
+}
+
+.extra-tag {
+    background-color: #BBBBBB;
+}
+
+.extra-tag a {
+    color: white;
+}
+
+#asciiText {
+    display: none;
+}

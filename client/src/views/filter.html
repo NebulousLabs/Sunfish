@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="small-1 small-offset-8 text-right columns">
+        <div class="switch round tiny">
+            <input id="safe" type="checkbox" ng-model="safe" ng-change="updateSiafiles()">
+            <label for="safe"></label>
+        </div> 
+    </div>
+    <div class="small-1 columns end">
+        <label ng-if="safe" for='safe'>Safe</label> 
+        <label ng-if="!safe" for='safe'>NSFW</label> 
+    </div>
+</div>
