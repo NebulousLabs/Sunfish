@@ -20,14 +20,14 @@ func newRouter(sf *Sunfish) *mux.Router {
 	var routes = []Route{
 		// Handles a post request sending a new file
 		Route{
-			Name:        "Index",
+			Name:        "Add a siafile",
 			Method:      "POST",
 			Pattern:     "/api/siafile/",
 			HandlerFunc: sf.AddFile,
 		},
 		// Return all files in the database
 		Route{
-			Name:        "Index",
+			Name:        "Get all siafiles",
 			Method:      "GET",
 			Pattern:     "/api/siafile/",
 			HandlerFunc: sf.GetAll,
@@ -52,6 +52,13 @@ func newRouter(sf *Sunfish) *mux.Router {
 			Method:      "DELETE",
 			Pattern:     "/api/siafile/",
 			HandlerFunc: sf.DeleteFile,
+		},
+		// Handle user actions
+		Route{
+			Name:        "Add user",
+			Method:      "POST",
+			Pattern:     "/api/user/",
+			HandlerFunc: sf.AddUser,
 		},
 	}
 
