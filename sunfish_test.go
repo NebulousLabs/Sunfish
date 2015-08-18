@@ -24,6 +24,7 @@ func TestGetSiafiles(t *testing.T) {
 	req, err := http.NewRequest("GET", url+"/siafile/", nil)
 
 	if err != nil {
+		t.Errorf("Error: problem creating request: %s", err)
 		sf.logger.Println(err)
 	}
 
