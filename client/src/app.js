@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('sunfishApp', ['ngRoute']);
+var app = angular.module('sunfishApp', ['ngRoute', 'ngTagsInput']);
 '$compileProvider',
     app.config(['$routeProvider', '$compileProvider', function($routeProvider, $compileProvider) {
         $routeProvider

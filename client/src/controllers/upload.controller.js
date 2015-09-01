@@ -6,37 +6,57 @@ app.controller('UploadCtrl', ['$scope', '$location', 'SunfishSrvc', 'SiafileRead
     $scope.siafile.listed = true;
     $scope.siafile.safe = true;
     $scope.safeClicked = false;
+    $scope.asciiUpload = true;
 
-    $scope.checkNSFW = function() {
-        var nsfwLoc = $scope.tags.toLowerCase().indexOf('nsfw');
-        if (nsfwLoc != -1) {
-            $scope.siafile.safe = false;
-        } else if ( nsfwLoc == -1 && !$scope.safeClicked ){
-            // Ignore nsfw tag remove if toggle was clicked
-            $scope.siafile.safe = true;
+    $scope.tags = [];
+    $scope.$watch('tags.length', function() {
+        var safe = true;
+        for (var i = 0; i < $scope.tags.length; i++) {
+            if ($scope.tags[i].text.toLowerCase() === 'nsfw'){
+                safe = false;
+            }
         }
-    }
+
+        if (safe === true && !$scope.safeClicked) {
+            $scope.siafile.safe = true;
+        } else {
+            $scope.siafile.safe = false;
+        }
+    });
 
     $scope.uploadSiafile = function() {
-        // Read the client file for upload
-        SiafileReaderSrvc.readfile().then(function(data) {
-            // Encode the base64 file in ascii
-            SiafileReaderSrvc.asciiEncode(data.base64, function(ascii){
-                $scope.siafile.ascii = ascii;
-                $scope.siafile.filename = data.filename;
-                $scope.siafile.tags = $scope.tags.trim().split(",");
+        var handleAscii = function(ascii, filename) {
+            $scope.siafile.ascii = ascii;
+            $scope.siafile.filename = filename;
+            $scope.siafile.tags = [];
 
-                // Process tags by making them stripped and lowercase
-                for (var i = 0; i <$scope.siafile.tags.length; i++){
-                    $scope.siafile.tags[i] = $scope.siafile.tags[i].trim().toLowerCase();
-                };
+            // Process tags by making them stripped and lowercase
+            for (var i = 0; i <$scope.tags.length; i++){
+                $scope.siafile.tags.push($scope.tags[i].text.trim().toLowerCase());
+            };
 
-                // Upload the processed siafile to the server
-                SunfishSrvc.upload($scope.siafile)
-                    .success(function(siafile) {
-                        $location.path("/siafile/" + siafile.Id);
-                    });
+            // Upload the processed siafile to the server
+            SunfishSrvc.upload($scope.siafile)
+                .success(function(siafile) {
+                    $location.path("/siafile/" + siafile.Id);
+                });
+        }
+
+        // If user uploaded with ascii paste
+        if ($scope.asciiUpload) {
+            handleAscii($scope.siafileAscii, $scope.siafileName);
+        } else {
+            // Read the client file for upload
+            SiafileReaderSrvc.readfile().then(function(data) {
+                // Encode the base64 file in ascii
+                SiafileReaderSrvc.asciiEncode(data.base64, function(ascii){
+                    handleAscii(ascii, data.filename);
+                });
             });
-        });
+        }
     };
+
+    $scope.setUploadType = function(bool) {
+        $scope.asciiUpload = bool;
+    }
 }]);
