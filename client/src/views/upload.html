@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="small-8 columns">
                     <label for='tags'>Tags <span class="label-tip">(Comma Separated)</span></label> 
-                    <input type="text" id='tags' name="tags" class="u-full-width" ng-model="tags" ng-change="checkNSFW()">
+                    <tags-input id='tags' replace-spaces-with-dashes="false" ng-model="tags"></tags-input>
                 </div>
                 <div class="small-2 columns">
                     <label ng-if="siafile.listed">Public</label>
@@ -51,7 +51,36 @@
             </div>
             <div class="row">
                 <div class="small-12 columns">
-                    <input type="file" id='siafile' name="siafile">
+                    <ul class="button-group">
+                        <li><a href="" class="small button" ng-click="setUploadType(true)" ng-class="{ secondary: !asciiUpload}">ASCII Upload</a></li>
+                        <li><a href="" class="small button" ng-click="setUploadType(false)" ng-class="{ secondary: asciiUpload}">Siafile Upload</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row" ng-show='asciiUpload'>
+                <div class="small-6 columns">
+                    <label for="siafileName">Filename</label>
+                </div>
+                <div class="small-6 columns">
+                    <label for="siafileAscii">ASCII Text</label>
+                </div>
+            </div>
+            <div class="row" ng-hide='asciiUpload'>
+                <div class="small-4 columns">
+                    <label for="siafileAscii">Siafile Upload</label>
+                </div>
+            </div>
+            <div class="row" ng-show='asciiUpload'>
+                <div class="small-6 columns">
+                    <input type="text" id='siafileName' name="siafileName" ng-model="siafileName" ng-disabled="">
+                </div>
+                <div class="small-6 columns">
+                    <input type="text" id='siafileAscii' name="siafileAscii" ng-model="siafileAscii" ng-disabled="">
+                </div>
+            </div>
+            <div class="row" ng-hide='asciiUpload'>
+                <div class="small-12 columns">
+                    <input type="file" id='siafile' name="siafile" ng-disabled="siafileAscii.length > 0">
                 </div>
             </div>
             <div class="row">
